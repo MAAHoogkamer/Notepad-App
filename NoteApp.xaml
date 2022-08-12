@@ -1,0 +1,143 @@
+﻿<Window x:Class="WPF_Uebung.NoteApp"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF_Uebung"
+        mc:Ignorable="d"
+        Title="NoteApp" Height="768" Width="1024">
+
+    <DockPanel>
+        <!--Here be the menu-->
+        <!--"_" is for ability to open menu with Alt + Letter-->
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_New">
+                    <MenuItem.Icon>
+                        <Image Source="Resources/NewDocumentHS.png" Width="16px" Height="16px" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Open" Click="btnOpen_Click">
+                    <MenuItem.Icon>
+                        <Image Source="Resources/openHS.png" Width="16px" Height="16px" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Save" Click="btnSave_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/Resources/saveHS.png" Width="16px" Height="16px" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="_Exit" Click="CloseApp"/>
+            </MenuItem>
+            <MenuItem Header="_Edit">
+                <MenuItem Header="_Undo"  />
+                <MenuItem Header="_Redo"  />
+                <MenuItem Header="_Cut"  >
+                    <MenuItem.Icon>
+                        <Image Source="Resources/CutHS.png" Width="16px" Height="16px" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Copy"  >
+                    <MenuItem.Icon>
+                        <Image Source="Resources/CopyHS.png" Width="16px" Height="16px" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Paste" >
+                    <MenuItem.Icon>
+                        <Image Source="Resources/PasteHS.png" Width="16px" Height="16px" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Select All"  />
+            </MenuItem>
+            <MenuItem Header="_Extra">
+                <MenuItem Name="DiscoMenu" Header="Disco" Click="DiscoOption" IsCheckable="True" IsChecked="False"/>
+            </MenuItem>
+        </Menu>
+        <ToolBar DockPanel.Dock="Top">
+            <Button Name="btnNew" Width="23" Height="22">
+                <Button.Content>
+                    <Image Source="Resources/NewDocumentHS.png" Width="16px" Height="16px" />
+                </Button.Content>
+            </Button>
+            <Button Name="btnOpen" Width="23" Height="22" Click="btnOpen_Click">
+                <Image Source="Resources/openHS.png" Width="16px" Height="16px" />
+            </Button>
+            <Button Name="btnSave" Width="23" Height="22" Click="btnSave_Click">
+                <Image Source="Resources/saveHS.png" Width="16px" Height="16px" />
+            </Button>
+            <Separator />
+            <Button Name="btnCut" Width="23" Height="22">
+                <Image Source="Resources/CutHS.png" Width="16px" Height="16px" />
+            </Button>
+            <Button Name="btnCopy" Width="23" Height="22">
+                <Image Source="Resources/CopyHS.png" Width="16px" Height="16px" />
+            </Button>
+            <Button Name="btnPaste" Width="23" Height="22">
+                <Image Source="Resources/PasteHS.png" Width="16px" Height="16px" />
+            </Button>
+        </ToolBar>
+        <StatusBar Name="Statusbar" DockPanel.Dock="Bottom">Zustandsriegel</StatusBar>
+        <TextBox AcceptsReturn="True" />
+        <!--Here be the grid-->
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="*" MinHeight="0"/>
+                <RowDefinition Height="45"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="*" MinWidth="0"/>
+            </Grid.ColumnDefinitions>
+            <!--Logo-->
+            <StackPanel Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+                <Image Source="Resources/logoleft.gif" Margin="0,0,0,0"/>
+            </StackPanel>
+            <!--Background for the main area-->
+            <Rectangle Name="MainRect" Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="3" Fill="{Binding Path=DiscC}"/>
+
+            <!--Left side bar for graphics and texts-->
+            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" Margin="10,0,0,0">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="Resources/Gear.png" Height="32px" Width="32px" />
+                    <Label Content="Application 1" Padding="0" Margin="10,0,0,0" VerticalAlignment="Center" FontFamily="Arial" FontSize="12pt" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="Resources/Gear.png" Height="32px" Width="32px" />
+                    <Label Content="Application 2" Padding="0" Margin="10,0,0,0" VerticalAlignment="Center" FontFamily="Arial" FontSize="12pt" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="Resources/Gear.png" Height="32px" Width="32px" />
+                    <Label Content="Application 3" Padding="0" Margin="10,0,0,0" VerticalAlignment="Center" FontFamily="Arial" FontSize="12pt" />
+                </StackPanel>
+            </StackPanel>
+            <!--Here be the tabcontrol-->
+            <TabControl Grid.Column="2" Grid.Row="1" Name="tabControl1" Margin="0,0,10,0" >
+                <TabItem Header="Tab 1" Name="tabItem1">
+                    <TextBox Name="editBox"/>
+                </TabItem>
+                <TabItem Header="Tab 2" Name="tabItem2">
+                </TabItem>
+                <TabItem Header="Tab 3" Name="tabItem3">
+                </TabItem>
+            </TabControl>
+
+            <!-- Here be Disco Controls -->
+            <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,200,0,0" Orientation="Vertical" Visibility="Hidden" Name="DiscoPanel">
+                <Label Content="Set speed:" Margin="10,5,0,0"/>
+                <Slider Name="SliderS" Minimum="10" Maximum="1000" Value="500" Grid.Row="0" Margin="10,0,0,0" ValueChanged="SliderS_ValueChanged" RenderTransformOrigin="0.5,0.5">
+                    <Slider.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="180"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Slider.RenderTransform>
+                </Slider>
+                <CheckBox Name="GoStop" Content="Go!" Click="Disco" IsChecked="False" Width="172" />
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+</Window>
